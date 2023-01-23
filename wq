@@ -1,0 +1,94 @@
+[1mdiff --git a/build.gradle b/build.gradle[m
+[1mindex d78c552..e8d1145 100644[m
+[1m--- a/build.gradle[m
+[1m+++ b/build.gradle[m
+[36m@@ -12,7 +12,8 @@[m [mrepositories {[m
+ 	mavenCentral()[m
+ }[m
+ [m
+[31m-dependencies {[m
+[32m+[m[32mdependencies[m
+[32m+[m	[32mdevelopmentOnly 'org.springframework.boot:spring-boot-devtools'[m
+ 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'[m
+ 	implementation 'org.springframework.boot:spring-boot-starter-web'[m
+ 	testImplementation 'org.springframework.boot:spring-boot-starter-test'[m
+[1mdiff --git a/gradlew b/gradlew[m
+[1mold mode 100755[m
+[1mnew mode 100644[m
+[1mdiff --git a/settings.gradle b/settings.gradle[m
+[1mindex 6277f56..fa7f1c7 100644[m
+[1m--- a/settings.gradle[m
+[1m+++ b/settings.gradle[m
+[36m@@ -1 +1 @@[m
+[31m-rootProject.name = 'cs389-demo'[m
+[32m+[m[32mrootProject.name = 'cs389-demo-java'[m
+[1mdiff --git a/src/main/java/edu/carroll/cs389/HelloController.java b/src/main/java/edu/carroll/cs389/HelloController.java[m
+[1mindex 7bf1e58..2c2b634 100644[m
+[1m--- a/src/main/java/edu/carroll/cs389/HelloController.java[m
+[1m+++ b/src/main/java/edu/carroll/cs389/HelloController.java[m
+[36m@@ -8,8 +8,8 @@[m [mimport org.springframework.web.bind.annotation.RequestParam;[m
+ @Controller[m
+ public class HelloController {[m
+     @GetMapping("/")[m
+[31m-    public String index(@RequestParam(value="name", required=false, defaultValue="Student")String name, Model model) {[m
+[32m+[m[32m    public String index(@RequestParam(value="name", defaultValue="Student")String name, Model model) {[m
+         model.addAttribute("name", name);[m
+         return "index";[m
+     }[m
+[31m-}[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/resources/templates/index.html b/src/main/resources/templates/index.html[m
+[1mindex a5d9da3..7ce4ed5 100644[m
+[1m--- a/src/main/resources/templates/index.html[m
+[1m+++ b/src/main/resources/templates/index.html[m
+[36m@@ -1,10 +1,10 @@[m
+ <!DOCTYPE HTML>[m
+ <html xmlns:th="http://www.thymeleaf.org">[m
+[31m-  <head> [m
+[32m+[m[32m<head>[m
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />[m
+[31m-    <title>Serving HTML Content</title> [m
+[31m-  </head>[m
+[31m-  <body>[m
+[31m-    <p th:text="'Hello, ' + ${name} + '!'"/>[m
+[31m-  </body>[m
+[31m-</html>[m
+[32m+[m[32m    <title>Serving HTML Content</title>[m
+[32m+[m[32m</head>[m
+[32m+[m[32m<body>[m
+[32m+[m[32m<p th:text="'Hello, ' + ${name} + '!'"/>[m
+[32m+[m[32m</body>[m
+[32m+[m[32m</html>[m
+\ No newline at end of file[m
+[1mdiff --git a/src/test/java/edu/carroll/cs389/HelloControllerTest.java b/src/test/java/edu/carroll/cs389/HelloControllerTest.java[m
+[1mindex 3798719..2ac20bb 100644[m
+[1m--- a/src/test/java/edu/carroll/cs389/HelloControllerTest.java[m
+[1m+++ b/src/test/java/edu/carroll/cs389/HelloControllerTest.java[m
+[36m@@ -1,7 +1,6 @@[m
+ package edu.carroll.cs389;[m
+ [m
+[31m-import static org.hamcrest.Matchers.containsString;[m
+[31m-[m
+[32m+[m[32mimport static org.hamcrest.Matchers.equalTo;[m
+ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;[m
+ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;[m
+ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;[m
+[36m@@ -21,14 +20,6 @@[m [mpublic class HelloControllerTest {[m
+     public void indexTest() throws Exception {[m
+         mockMvc.perform(get("/")).andDo(print())[m
+                 .andExpect(status().isOk())[m
+[31m-                .andExpect(content().string(containsString("Hello, Student!")));[m
+[31m-    }[m
+[31m-[m
+[31m-    @Test[m
+[31m-    public void indexWithParamTest() throws Exception {[m
+[31m-        final String name = "You";[m
+[31m-        mockMvc.perform(get("/").param("name", name)).andDo(print())[m
+[31m-                .andExpect(status().isOk())[m
+[31m-                .andExpect(content().string(containsString("Hello, " + name + "!")));[m
+[32m+[m[32m                .andExpect(content().string(equalTo("Hello from Spring Boot!")));[m
+     }[m
+[31m-}[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
