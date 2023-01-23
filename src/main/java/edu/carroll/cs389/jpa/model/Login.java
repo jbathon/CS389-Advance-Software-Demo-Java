@@ -13,6 +13,19 @@ import jakarta.persistence.Table;
 public class Login {
     private static final long serialVersionUID = 1L;
 
+    public Login() {
+    }
+
+    public Login(String username, String rawPassword) {
+        this.username = username;
+        setRawPassword(rawPassword);
+    }
+
+    public void setRawPassword(String rawPassword) {
+        // XXX - This should *NEVER* be done in a real project
+        this.hashedPassword = Integer.toString(rawPassword.hashCode());
+    }
+
     @Id
     @GeneratedValue
     private Integer id;
